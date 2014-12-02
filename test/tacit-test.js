@@ -9,7 +9,7 @@ chai.use(chaiAsPromised);
 
 describe('tacit', function() {
   describe('.Model', function() {
-    /*var tableName = 'tableName';
+    var tableName = 'tableName';
     var model = tacit.Model(tableName);
 
     it('should return a function', function() {
@@ -18,14 +18,16 @@ describe('tacit', function() {
     });
 
     it('should set the primary key', function() {
-      var model = acid.Model(tableName, 'otherId');
-      expect(model.primaryKey).to.equal('otherId');
+      var Model = tacit.Model(tableName, 'otherId');
+      var record = new Model({});
+      expect(record._model._primaryKey).to.equal('otherId');
     });
 
     it('should set the primary key to id by default', function() {
-      var model = acid.Model(tableName);
-      expect(model.primaryKey).to.equal('id');
-    });*/
+      var Model = tacit.Model(tableName);
+      var record = new Model({});
+      expect(record._model._primaryKey).to.equal('id');
+    });
   });
 
   describe('.Query', function() {
