@@ -5,6 +5,11 @@ Built on top of [mssql](https://github.com/patriksimek/node-mssql) and [tsqljs](
 
 ## Examples
 
+```bash
+# Install the module
+$ npm install --save tacitjs
+```
+
 ```js
 // Require the module
 var tacit = require('tacit')({
