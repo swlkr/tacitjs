@@ -11,8 +11,7 @@ var tacit = require('tacit')({
   host: 'localhost',
   user: 'enterprise-admin',
   password: 'enterprise-password',
-  database: 'tacitjs',
-  port: 1433
+  database: 'tacitjs'
 });
 ```
 
