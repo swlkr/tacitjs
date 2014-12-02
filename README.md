@@ -8,7 +8,7 @@ Built on top of [mssql](https://github.com/patriksimek/node-mssql) and [tsqljs](
 ```js
 // Require the module
 var tacit = require('tacit')({
-  host: 'localhost',
+  server: 'localhost',
   user: 'enterprise-admin',
   password: 'enterprise-password',
   database: 'tacitjs'
