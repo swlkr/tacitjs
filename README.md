@@ -12,7 +12,7 @@ $ npm install --save tacitjs
 
 ```js
 // Require the module
-var tacit = require('tacit')({
+var tacit = require('tacitjs')({
   server: 'localhost',
   user: 'enterprise-admin',
   password: 'enterprise-password',
