@@ -21,7 +21,7 @@ var tacit = require('tacitjs')({
 ```
 
 ```sql
-// Create a table
+/* Create a table */
 CREATE TABLE users
 (
   id INT PRIMARY KEY IDENTITY(1,1),
