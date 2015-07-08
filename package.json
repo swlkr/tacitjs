@@ -18,8 +18,8 @@
   "dependencies": {
     "dotenv": "^1.2.0",
     "mssql": "1.3.0",
-    "tsqljs": "0.0.2",
-    "q": "1.0.1"
+    "q": "1.0.1",
+    "tsqljs": "0.0.3"
   },
   "devDependencies": {
     "chai": "^1.9.1",
