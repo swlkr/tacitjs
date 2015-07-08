@@ -1,14 +1,15 @@
-# Tacit
-_A minimal mssql ORM for nodejs_
+# tacit.js
+_A simple mssql library_
 
 Built on top of [mssql](https://github.com/patriksimek/node-mssql) and [tsqljs](https://github.com/swlkr/tsqljs)
 
-## Examples
+## Install
 
 ```bash
-# Install the module
-$ npm install --save tacitjs
+$ npm i --save tacitjs
 ```
+
+## Examples
 
 ```js
 // Require the module
@@ -16,7 +17,7 @@ var tacit = require('tacitjs')({
   server: 'localhost',
   user: 'enterprise-admin',
   password: 'enterprise-password',
-  database: 'tacitjs'
+  database: 'enterprise-database'
 });
 ```
 
@@ -25,71 +26,101 @@ var tacit = require('tacitjs')({
 CREATE TABLE users
 (
   id INT PRIMARY KEY IDENTITY(1,1),
-  username NVARCHAR(256),
   email NVARCHAR(256),
   createdAt NOT NULL CONSTRAINT DF_MyTable_CreateDate_GETDATE DEFAULT GETDATE()
 )
 ```
 
+## Insert a record
+
 ```js
-// Define a model
-var User = tacit.Model('users');
+var tables = {
+  users: "users"
+};
 
-// Define a model with a primary key other than id
-var User = tacit.Model('users', 'userId');
-
-// Insert a record
-var user = new User({email: 'test@example.com'});
-user.save()
-.then(function(result) {
+tacit
+.insert(tables.users, { email: "test@example.com" })
+.then(function(rows) {
   /*
-  result = {
-    id: '1',
-    email: 'test@example.com',
-    createdat: Sun Sep 14 2014 23:03:13 GMT-0700 (PDT)
-  }
+    rows === [
+      {
+        id: "1",
+        email: "test@example.com",
+        createdAt: ...
+      }
+    ]
   */
 })
-.fail(function(error) {
-  console.log(error);
-})
+```
 
-// Find a record by primary key (id by default)
-User.get(1)
-.then(function(result) {
-  /*
-  result = {
-    id: '1',
-    email: 'test@example.com',
-    createdat: Sun Sep 14 2014 23:03:13 GMT-0700 (PDT)
-  }
-  */
-})
-.fail(function(error) {
-  console.log(error);
-})
+## Find a record with a where clause
 
-// Find a record using where
-User.where('email = ?', 'test@example.com').run()
-.then(function(result) {
+```js
+tacit
+.where(tables.users, "id = @1", "1")
+.then(function(rows) {
   /*
-    result = [{
-      id: '1',
-      email: 'test@example.com',
-      createdat: Sun Sep 14 2014 23:03:13 GMT-0700 (PDT)
-    }]
+    rows === [
+      {
+        id: "1",
+        email: "test@example.com",
+        createdAt: ...
+      }
+    ]
   */
-})
-.fail(function(error) {
-  console.log(error);
-})
+});
+```
+
+## Update a record
+
+```js
+tacit
+.update(tables.users, { email: "updated@example.com" }, "id = @1", "1")
+.then(function(rows) {
+  /*
+    rows === [
+      {
+       id: "1",
+       email: "updated@example.com",
+       createdAt: ...
+      }
+    ]
+  */
+});
+```
+
+
+## Delete a record
+
+```js
+tacit
+.delete(tables.users, "id = @1", "1")
+.then(function(rows) {
+  /*
+    rows === [
+      {
+        id: "1",
+        email: "updated@example.com",
+        createdAt: ...
+      }
+    ]
+  */
+]
+});
 ```
 
 ## Tests
 
-```sql
+```bash
 // Grab a sql server database (appharbor has a free one)
-$ env SERVER=<server name> DATABASE=<database name> USER_ID=<User Id> PASSWORD=<Password> mocha
+$ git clone git@github.com:swlkr/tacitjs.git
+$ npm i
+$ touch .env
+$ echo "SERVER=<server name>" >> .env
+$ echo "DATABASE=<database name>" >> .env
+$ echo "USER_ID=<User Id>" >> .env
+$ echo "PASSWORD=<Password>" >> .env
+$ npm test
 ```
 
 ## What's with the name?

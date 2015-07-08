@@ -1,48 +1,61 @@
-var chai = require('chai'),
-    expect = chai.expect,
-    chaiAsPromised = require('chai-as-promised'),
-    config = require('./config'),
-    tacit = require('../lib/tacit')(config),
-    Model = require('../lib/model');
+var chai           = require("chai"),
+    expect         = chai.expect,
+    chaiAsPromised = require("chai-as-promised"),
+    connection     = require("./connection"),
+    tacit          = require("../lib/tacit")(connection);
 
 chai.use(chaiAsPromised);
 
-describe('tacit', function() {
-  describe('.Model', function() {
-    var tableName = 'tableName';
-    var model = tacit.Model(tableName);
+describe("tacit", function() {
+  before(function() {
+    return tacit.sql("create table users (username nvarchar(max));");
+  });
 
-    it('should return a function', function() {
-      var type = typeof(model);
-      expect(type).to.equal('function');
-    });
+  after(function() {
+    return tacit.sql("drop table users;");
+  });
 
-    it('should set the primary key', function() {
-      var Model = tacit.Model(tableName, 'otherId');
-      var record = new Model({});
-      expect(record._model._primaryKey).to.equal('otherId');
-    });
-
-    it('should set the primary key to id by default', function() {
-      var Model = tacit.Model(tableName);
-      var record = new Model({});
-      expect(record._model._primaryKey).to.equal('id');
+  describe(".insert", function() {
+    it("should insert a row into the database", function() {
+      return expect(
+        tacit.insert("users", { username: "test" })
+      ).to.eventually.deep.equal([{ username: "test" }]);
     });
   });
 
-  describe('.Query', function() {
+  describe(".where", function() {
     before(function() {
-      return tacit.Query('create table customers (name nvarchar(256), age int)').then(function() {
-        return tacit.Query("insert into customers (name, age) values ('Johnny', 29)");
-      })
-    })
-
-    after(function() {
-      return tacit.Query('drop table customers');
+      return tacit.insert("users", { username: "where test" });
     });
 
-    it('should execute an arbitrary query', function() {
-      return expect(tacit.Query('select * from customers')).to.eventually.deep.equal([ { name: 'Johnny', age: 29 } ]);
+    it("should select some rows from the database", function() {
+      return expect(
+        tacit.where("users", "username = @1", "where test")
+      ).to.eventually.deep.equal([{ username: "where test" }]);
+    });
+  });
+
+  describe(".update", function() {
+    before(function() {
+      return tacit.insert("users", { username: "update me" });
+    });
+
+    it("should update a row in the database", function() {
+      return expect(
+        tacit.update("users", { username: "updated" }, "username = @1", "update me")
+      ).to.eventually.deep.equal([{ username: "updated" }]);
+    });
+  });
+
+  describe(".delete", function() {
+    before(function() {
+      return tacit.insert("users", { username: "delete me" });
+    });
+
+    it("should delete a record from the database", function() {
+      return expect(
+        tacit.delete("users", "username = @1", "delete me")
+      ).to.eventually.deep.equal([{ username: "delete me" }]);
     });
   });
 });
