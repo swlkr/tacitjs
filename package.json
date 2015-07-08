@@ -1,6 +1,7 @@
 {
   "author": "Sean <swlkr.rbl@gmail.com>",
   "name": "tacitjs",
+  "license": "MIT",
   "description": "MSSQL ORM",
   "version": "0.0.4",
   "homepage": "https://github.com/swlkr/tacit",
