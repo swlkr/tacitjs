@@ -58,4 +58,20 @@ describe("tacit", function() {
       ).to.eventually.deep.equal([{ username: "delete me" }]);
     });
   });
+
+  describe(".execute", function() {
+    before(function() {
+      return tacit.sql("create procedure dbo.User_Insert @username nvarchar(max) as begin insert into users ( username ) output inserted.* values ( @username ) end;");
+    });
+
+    after(function() {
+      return tacit.sql("drop procedure User_Insert");
+    });
+
+    it("should insert a record into the database using a procedure", function() {
+      return expect(
+        tacit.execute("User_Insert", { username: "stored procedure" })
+      ).to.eventually.deep.equal({ recordsets: [ [ { username: "stored procedure" } ] ], returnValue: 0 });
+    });
+  });
 });
