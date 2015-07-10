@@ -2,7 +2,7 @@
   "author": "Sean <swlkr.rbl@gmail.com>",
   "name": "tacitjs",
   "license": "MIT",
-  "description": "MSSQL ORM",
+  "description": "A simple MSSQL library",
   "version": "1.0.0",
   "homepage": "https://github.com/swlkr/tacit",
   "repository": {
