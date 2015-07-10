@@ -109,6 +109,39 @@ tacit
 });
 ```
 
+## Query with abitrary sql
+
+```js
+tacit
+.sql("insert into users (email) output inserted.* values (@1)", ["email@example.com"])
+.then(function(rows) {
+  /*
+    rows === [
+      {
+        id: "2",
+        email: "email@example.com",
+        createdAt: ...
+      }
+    ]
+  */
+});
+```
+
+## Execute a stored procedure
+
+```js
+tacit
+.execute("stored_procedure_name", { param1: "param1", param2: "param2" })
+.then(function(result) {
+  /*
+    result === {
+      "recordsets": [ [{ some: "data", maybe: "?" }] ],
+      "returnValue": 0
+    }
+  */
+});
+```
+
 ## Tests
 
 ```bash
