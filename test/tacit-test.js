@@ -6,6 +6,10 @@ var chai           = require("chai"),
 
 chai.use(chaiAsPromised);
 
+var Tables = {
+  USERS: "users"
+};
+
 describe("tacit", function() {
   before(function() {
     return tacit.sql("create table users (username nvarchar(max));");
@@ -18,43 +22,43 @@ describe("tacit", function() {
   describe(".insert", function() {
     it("should insert a row into the database", function() {
       return expect(
-        tacit.insert("users", { username: "test" })
+        tacit.insert(Tables.USERS, { username: "test" })
       ).to.eventually.deep.equal([{ username: "test" }]);
     });
   });
 
   describe(".where", function() {
     before(function() {
-      return tacit.insert("users", { username: "where test" });
+      return tacit.insert(Tables.USERS, { username: "where test" });
     });
 
     it("should select some rows from the database", function() {
       return expect(
-        tacit.where("users", "username = @1", "where test")
+        tacit.where(Tables.USERS, "username = @1", "where test")
       ).to.eventually.deep.equal([{ username: "where test" }]);
     });
   });
 
   describe(".update", function() {
     before(function() {
-      return tacit.insert("users", { username: "update me" });
+      return tacit.insert(Tables.USERS, { username: "update me" });
     });
 
     it("should update a row in the database", function() {
       return expect(
-        tacit.update("users", { username: "updated" }, "username = @1", "update me")
+        tacit.update(Tables.USERS, { username: "updated" }, "username = @1", "update me")
       ).to.eventually.deep.equal([{ username: "updated" }]);
     });
   });
 
   describe(".delete", function() {
     before(function() {
-      return tacit.insert("users", { username: "delete me" });
+      return tacit.insert(Tables.USERS, { username: "delete me" });
     });
 
     it("should delete a record from the database", function() {
       return expect(
-        tacit.delete("users", "username = @1", "delete me")
+        tacit.delete(Tables.USERS, "username = @1", "delete me")
       ).to.eventually.deep.equal([{ username: "delete me" }]);
     });
   });
