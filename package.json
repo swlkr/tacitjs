@@ -3,7 +3,7 @@
   "name": "tacitjs",
   "license": "MIT",
   "description": "A simple MSSQL library",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "homepage": "https://github.com/swlkr/tacit",
   "repository": {
     "type": "git",
