@@ -17,12 +17,12 @@
     "node": "4.x"
   },
   "dependencies": {
-    "dotenv": "^1.2.x",
     "mssql": "^2.3.x",
     "q": "1.x",
     "tsqljs": "0.0.3"
   },
   "devDependencies": {
+    "dotenv": "^1.2.0",
     "chai": "^1.9.1",
     "chai-as-promised": "^4.1.1",
     "eslint": "^0.24.0",
