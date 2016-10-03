@@ -1,3 +1,6 @@
+# DEPRECATED Use [yepql](https://github.com/swlkr/yepql) instead
+
+
 # tacit.js
 _A simple mssql library_
 
